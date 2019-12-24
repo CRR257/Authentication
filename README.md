@@ -1,9 +1,7 @@
-# usersform
+# Authentication 💻__👀
 
-## Project setup
-```
-npm install
-```
+Mini app to authenticate users
+
 
 ### Compiles and hot-reloads for development
 ```
@@ -19,6 +17,6 @@ npm run build
 ```
 npm run lint
 ```
+## Technologies
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Vue.js && JS
