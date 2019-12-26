@@ -2,6 +2,7 @@
  <form @submit.prevent="signUp">
   <div class="sign-up">
      <h3>Sign Up!</h3>
+    <input type="text" v-model="name" placeholder="Name" required><br>
     <input type="text" v-model="email" placeholder="Email" required><br>
     <input type="password" v-model="password" placeholder="Password" required><br>
     <input type="password" v-model="confirmPassword" placeholder="Confirm Password" required><br>
@@ -28,6 +29,7 @@ import firebase from 'firebase';
     name: 'signUp',
     data() {
       return {
+        name: '',
         email: '',
         password: '',
         confirmPassword: '',
@@ -40,19 +42,22 @@ import firebase from 'firebase';
         this.error = [],
         this.loadingMessage = []
         firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-        .then(function(){
+        .then(() => {
           if (this.password !== this.confirmPassword) {
             this.error.push('Passwords do not match');
           } else {
-            this.loadingMessage.push('well done, you are connected!')
+            this.loadingMessage.push(this.name + ' well done, you are connected!');
+           
             setTimeout(function() {
               this.$router.replace('home')
-            }.bind(this), 1000)
+            }.bind(this), 2000);
           }
-        }.bind(this)) 
-        .catch(function(err) {
-          this.error.push(err.message)
-        }.bind(this)) 
+        }) 
+        .catch(err => {
+          this.error.push(err.message);
+        }) 
+
+       
       }
     }
   }

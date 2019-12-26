@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <p>Home</p>
+    <p>Admin</p>
     <button @click="logout">Logout</button>
   </div>
 </template>
@@ -9,7 +9,7 @@
 import firebase from 'firebase';
 
 export default {
-  name: 'home',
+  name: 'admin',
   methods: {
     logout: function() {
       firebase.auth().signOut().then(() => {
