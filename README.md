@@ -1,6 +1,8 @@
 # Authentication 💻__👀
 
-Mini app to authenticate users
+Mini app to authenticate users using Vuex and Firebase.
+
+Vuex is a centralized store for all the components in an application (https://vuex.vuejs.org/)
 
 
 ### Compiles and hot-reloads for development
@@ -12,11 +14,6 @@ npm run serve
 ```
 npm run build
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
 ## Technologies
 
-Vue.js && JS
+Vue.js && Vuex && JS && Firebase && Sass

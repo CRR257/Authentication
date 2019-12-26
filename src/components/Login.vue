@@ -39,15 +39,19 @@ export default {
       this.loadingMessage = [],
       this.error = []
       firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-      .then(function() {
-        this.loadingMessage.push('well done, you are connected!')
+      .then(user => {
+        this.loadingMessage.push('Welcome');
         setTimeout(function() {
-          this.$router.replace('home')
-        }.bind(this), 1000)
-      }.bind(this))
-      .catch(function(err) {
-        this.error.push(err)
-      }.bind(this)) 
+          if (this.email === 'admin@gmail.com' && this.password === 'adminadmin') {
+            this.$router.replace('admin');
+          } else {
+            this.$router.replace('home');
+          }
+        }.bind(this), 1000);
+      })
+      .catch(err => {
+        this.error.push(err);
+      })
     }
   }
 }
@@ -55,6 +59,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+@import "../styles/_variables.scss";
+
 .login {
     margin-top: 40px;
   }
@@ -62,6 +69,7 @@ export default {
     margin: 10px 0;
     width: 20%;
     padding: 15px;
+    // background-color: $primary;
   }
   button {
     margin-top: 20px;
