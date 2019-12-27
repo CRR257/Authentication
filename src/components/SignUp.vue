@@ -1,23 +1,16 @@
 <template>
- <form @submit.prevent="signUp">
-  <div class="sign-up">
+ <form @submit.prevent="userSignUp">
+  <div class="container">
      <h3>Sign Up!</h3>
     <input type="text" v-model="name" placeholder="Name" required><br>
     <input type="text" v-model="email" placeholder="Email" required><br>
     <input type="password" v-model="password" placeholder="Password" required><br>
-    <input type="password" v-model="confirmPassword" placeholder="Confirm Password" required><br>
-     <div v-if="error.length">
-      <div v-for="err in error" :key="err">
-        <div>{{err}}</div>
-      </div>
-    </div>
-     <div v-if="loadingMessage.length">
-      <div v-for="loading in loadingMessage" :key="loading">
-        <div>{{loading}}</div>
-      </div>
-    </div>
-    <button type="submit">Sign Up</button>
-    <span>or go back to <router-link to="/login">login</router-link></span>
+    <input type="password" v-model="passwordConfirm" :rules="[comparePasswords]" placeholder="Confirm Password" required><br>
+    <v-alert type="error" class="error" dismissible v-model="alert" v-if="alert">
+      {{ error }}
+    </v-alert>
+    <button type="submit" :disabled="loading">Submit</button>
+    <p>or go back to <router-link to="/login">login</router-link></p>
   </div>
  </form>
 </template>
@@ -32,56 +25,49 @@ import firebase from 'firebase';
         name: '',
         email: '',
         password: '',
-        confirmPassword: '',
-        error: [],
-        loadingMessage: [],
+        passwordConfirm: '',
+        alert: false,
       }
     },
     methods: {
-      signUp() {
-        this.error = [],
-        this.loadingMessage = []
-        firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-        .then(() => {
-          if (this.password !== this.confirmPassword) {
-            this.error.push('Passwords do not match');
-          } else {
-            this.loadingMessage.push(this.name + ' well done, you are connected!');
-           
-            setTimeout(function() {
-              this.$router.replace('home')
-            }.bind(this), 2000);
-          }
-        }) 
-        .catch(err => {
-          this.error.push(err.message);
-        }) 
-
-       
+      userSignUp() {
+        if (this.comparePasswords !== true) {
+          // just stop execution of the function by calling return
+          return
+        }
+        this.$store.dispatch('userSignUp', { email: this.email, password: this.password })
+      }
+    },
+    computed: {
+      comparePasswords () {
+        return this.password === this.passwordConfirm ? true : 'Passwords don\'t match'
+      },
+      error () {
+        return this.$store.state.error
+      },
+      loading () {
+        return this.$store.state.loading
+      }
+    },
+    watch: {
+    error (value) {
+      if (value) {
+        this.alert = true
+      }
+    },
+    alert (value) {
+      if (!value) {
+        this.$store.commit('setError', null)
       }
     }
   }
+}
 
 </script>
 
- <style scoped>
-  .sign-up {
-    margin-top: 40px;
-  }
-  input {
-    margin: 10px 0;
-    width: 20%;
-    padding: 15px;
-  }
-  button {
-    margin-top: 10px;
-    width: 10%;
-    cursor: pointer;
-  }
-  span {
-    display: block;
-    margin-top: 20px;
-    font-size: 11px;
-  }
+<style scoped lang="scss">
+
+@import "../styles/_variables.scss";
+
 </style>
 

@@ -13,7 +13,6 @@ export default {
   methods: {
     logout: function() {
       firebase.auth().signOut().then(() => {
-        localStorage.clear();
         this.$router.replace('login');
       });
     }
