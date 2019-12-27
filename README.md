@@ -2,8 +2,12 @@
 
 Mini app to authenticate users using Vuex and Firebase.
 
-Vuex is a centralized store for all the components in an application (https://vuex.vuejs.org/)
+Login:<br>
 
+    email: admin@gmail.com  
+    password: adminadmin
+
+Vuex is a centralized store for all the components in an application (https://vuex.vuejs.org/)
 
 ### Compiles and hot-reloads for development
 ```
